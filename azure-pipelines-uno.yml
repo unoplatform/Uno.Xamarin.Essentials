@@ -1,0 +1,67 @@
+
+variables:
+  CurrentSemanticVersionBase: '1.0.0'
+  CurrentSemanticVersion: '$(CurrentSemanticVersionBase)-preview$(Build.BuildNumber)'
+  NugetPackageVersion: '$(CurrentSemanticVersion)'
+  MONO_VERSION: 5_18_1
+  XCODE_VERSION: 10.2.1
+  IOS_SIM_NAME: 'iPhone X'
+  IOS_SIM_RUNTIME: 'com.apple.CoreSimulator.SimRuntime.iOS-12-2'
+  ANDROID_EMU_TARGET: 'system-images;android-26;google_apis;x86'
+  ANDROID_EMU_DEVICE: 'Nexus 5X'
+  RunPoliCheck: 'false'
+
+jobs:
+
+  - job: build_windows
+    displayName: Build Windows Library
+    pool:
+      vmImage: vs2017-win2016
+    steps:
+      # if this is a tagged build, then update the version number
+      - powershell: |
+          $buildSourceBranch = "$(Build.SourceBranch)"
+          $tagVersion = $buildSourceBranch.Substring($buildSourceBranch.LastIndexOf("/") + 1)
+          Write-Host("Branch = $buildSourceBranch, Version = $tagVersion");
+          Write-Host ("##vso[task.setvariable variable=NugetPackageVersion;]$tagVersion")
+        displayName: Set NuGet Version to Tag Number
+        condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+      # restore, build and pack the packages
+      - task: MSBuild@1
+        displayName: Build Solution
+        inputs:
+          solution: Xamarin.Essentials/Xamarin.Essentials.csproj
+          configuration: Release
+          msbuildArguments: '/restore /t:Build /p:ContinuousIntegrationBuild=true /p:Deterministic=false'
+      - task: MSBuild@1
+        displayName: Pack NuGets
+        inputs:
+          solution: Xamarin.Essentials/Xamarin.Essentials.csproj
+          configuration: Release
+          msbuildArguments: '/t:Pack /p:PackageVersion=$(NugetPackageVersion) /p:PackageOutputPath="$(Build.ArtifactStagingDirectory)/nuget"'
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: test
+          projects: 'Tests/Tests.csproj'
+          arguments: '--configuration Release'
+      # publish the packages
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Unsigned NuGets'
+        inputs:
+          artifactName: nuget
+          pathToPublish: '$(Build.ArtifactStagingDirectory)/nuget'
+      # make sure we are following the rules, but only on the main build
+      - ${{ if eq(variables['System.TeamProject'], 'devdiv') }}:
+        - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+          condition: not(startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+          displayName: Component Detection - Log
+          inputs:
+            scanType: LogOnly
+        - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+          condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+          displayName: Component Detection - Report
+        - task: securedevelopmentteam.vss-secure-development-tools.build-task-policheck.PoliCheck@1
+          condition: eq(variables['RunPoliCheck'], 'true')
+          displayName: 'PoliCheck'
+          inputs:
+            targetType: F
