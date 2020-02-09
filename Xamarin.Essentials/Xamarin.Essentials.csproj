@@ -31,6 +31,7 @@
     <MDocDocumentationDirectory>$(MSBuildThisFileDirectory)..\docs\en</MDocDocumentationDirectory>
     <Configurations>Debug;Release;Samples;Docs</Configurations>
     <DebugType>portable</DebugType>
+    <NoWarn>$(NoWarn);NU1701</NoWarn> <!-- Remove this line once https://github.com/unoplatform/Uno.Core/issues/53 is fixed -->
  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,7 +77,6 @@
   </ItemGroup>
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('netstandard2.0')) ">
     <NoWarn>$(NoWarn);Uno0001</NoWarn>
-    <NoWarn>$(NoWarn);NU1701</NoWarn> <!-- Remove this line once https://github.com/unoplatform/Uno.Core/issues/53 is fixed -->
   </PropertyGroup>
   <ItemGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
     <Compile Include="**\*.android.cs" />
