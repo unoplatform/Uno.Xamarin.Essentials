@@ -20,16 +20,13 @@ jobs:
       vmImage: vs2017-win2016
 
     steps:
-      # if this is a tagged build, then update the version number
-      - powershell: |
-          $buildSourceBranch = "$(Build.SourceBranch)"
-          $tagVersion = $buildSourceBranch.Substring($buildSourceBranch.LastIndexOf("/") + 1)
-          Write-Host("Branch = $buildSourceBranch, Version = $tagVersion");
-          Write-Host ("##vso[task.setvariable variable=NugetPackageVersion;]$tagVersion")
-        displayName: Set NuGet Version to Tag Number
-        condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
-      # restore, build and pack the packages
+      - task: GitVersion@5
+        inputs:
+          useConfigFile: true
+          configFilePath: gitversion.yml
+          updateAssemblyInfo: false
 
+      # restore, build and pack the packages
       - task: MSBuild@1
         displayName: Build Solution
         inputs:
@@ -42,7 +39,7 @@ jobs:
         inputs:
           solution: Xamarin.Essentials/Xamarin.Essentials.csproj
           configuration: Release
-          msbuildArguments: '/t:Pack /p:PackageVersion=$(NugetPackageVersion) /p:PackageOutputPath="$(Build.ArtifactStagingDirectory)/nuget"'
+          msbuildArguments: '/t:Pack /p:PackageVersion=$(GITVERSION_FullSemVer) /p:PackageOutputPath="$(Build.ArtifactStagingDirectory)/nuget"'
 
 
       # publish the packages
