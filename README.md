@@ -2,7 +2,7 @@
 
 **Uno.Xamarin.Essentials** is a fork of the [Xamarin.Essentials](https://github.com/xamarin/Essentials) library to enable WebAssembly support for Uno Platform based applications, as well as all the official Xamarin.Essential supported platforms.
 
-To use this library, you'll need to replace your references from `Xamarin.Essentials` to `Uno.Xamarin.Essentials`.
+To use this library, you'll need to replace your Nuget package references from `Xamarin.Essentials` to `Uno.Xamarin.Essentials`.
 
 ## Reporting issues
 
