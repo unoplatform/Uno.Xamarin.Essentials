@@ -53,7 +53,7 @@ namespace Samples.UWP
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            throw new Exception($"Failed to load Page {e.SourcePageType}: {e.Exception}");
         }
 
         void OnSuspending(object sender, SuspendingEventArgs e)

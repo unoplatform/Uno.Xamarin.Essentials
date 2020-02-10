@@ -1,4 +1,5 @@
-﻿using Windows.Storage;
+﻿using Windows.Foundation.Metadata;
+using Windows.Storage;
 
 namespace Xamarin.Essentials
 {
@@ -73,10 +74,17 @@ namespace Xamarin.Essentials
             if (string.IsNullOrWhiteSpace(sharedName))
                 return localSettings;
 
-            if (!localSettings.Containers.ContainsKey(sharedName))
-                localSettings.CreateContainer(sharedName, ApplicationDataCreateDisposition.Always);
+            if (ApiInformation.IsPropertyPresent("Windows.Storage.ApplicationDataContainer", "Containers"))
+            {
+                if (!localSettings.Containers.ContainsKey(sharedName))
+                    localSettings.CreateContainer(sharedName, ApplicationDataCreateDisposition.Always);
 
-            return localSettings.Containers[sharedName];
+                return localSettings.Containers[sharedName];
+            }
+            else
+            {
+                return localSettings;
+            }
         }
     }
 }
