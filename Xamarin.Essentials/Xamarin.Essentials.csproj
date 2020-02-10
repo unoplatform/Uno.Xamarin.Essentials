@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid60;MonoAndroid70;MonoAndroid71;MonoAndroid80;MonoAndroid81;MonoAndroid90;uap10.0.16299;tizen40;</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">netstandard2.0;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid60;MonoAndroid70;MonoAndroid71;MonoAndroid80;MonoAndroid81;MonoAndroid90;tizen40;</TargetFrameworks>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <!-- Uncomment to debug a single platform <TargetFrameworks>netstandard2.0</TargetFrameworks>-->
     <AssemblyName>Xamarin.Essentials</AssemblyName>
     <RootNamespace>Xamarin.Essentials</RootNamespace>
     <PackageId>Uno.Xamarin.Essentials</PackageId>
@@ -16,8 +16,8 @@
     <AssemblyFileVersion>1.0.0.0</AssemblyFileVersion>
     <Version>1.0.0</Version>
     <PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
-    <Authors>Microsoft</Authors>
-    <Owners>microsoft,Xamarin,XamarinNuGet</Owners>
+    <Authors>Microsoft,nventive</Authors>
+    <Owners>nventive</Owners>
     <NeutralLanguage>en</NeutralLanguage>
     <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
     <RepositoryUrl>https://github.com/xamarin/Essentials</RepositoryUrl>
