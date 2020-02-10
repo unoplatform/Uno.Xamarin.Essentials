@@ -1,4 +1,16 @@
-# Xamarin.Essentials
+# Uno.Xamarin.Essentials
+
+**Uno.Xamarin.Essentials** is a fork of the [Xamarin.Essentials](https://github.com/xamarin/Essentials) library to enable WebAssembly support for Uno Platform based applications, as well as all the official Xamarin.Essential supported platforms.
+
+To use this library, you'll need to replace your references from `Xamarin.Essentials` to `Uno.Xamarin.Essentials`.
+
+## Reporting issues
+
+The implementation of the WebAssembly is provided through the UWP implementation of Xamarin.Essentials. This means that you may find parts that are not implemented, because the WinRT APIs may not yet be implemented in Uno.
+
+If you find such an API, please [open an issue in the Uno Platform repository](https://github.com/unoplatform/uno/issues/new/choose) to let us know about it!
+
+## Xamarin.Essentials Documentation
 
 Xamarin.Essentials gives developers essential cross-platform APIs for their mobile applications. 
 
@@ -6,39 +18,9 @@ iOS, Android, and UWP offer unique operating system and platform APIs that devel
 
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/xamarin/Essentials)
 
-## Build Status
-
-| Build Server | Type         | Platform | Status                                                                                                                                                                                 |
-|--------------|--------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| VSTS         | Build        | Windows  | ![VSTS Build Status](https://devdiv.visualstudio.com/_apis/public/build/definitions/0bdbc590-a062-4c3f-b0f6-9383f67865ee/8538/badge)                                                   |
-| Jenkins      | Device Tests | macOS    | [![Build Status](https://jenkins.mono-project.com/buildStatus/icon?job=Components-Essentials-DeviceTests-Mac)](https://jenkins.mono-project.com/job/Components-Essentials-DeviceTests-Mac) |
-| App Center   | Sample App   | Android  | [![Build status](https://build.appcenter.ms/v0.1/apps/7a1f46ca-ba2f-477e-aacc-ff013c7d5f7a/branches/master/badge)](https://appcenter.ms) |
-| App Center   | Sample App   | iOS      | [![Build status](https://build.appcenter.ms/v0.1/apps/43b39e9e-2b2b-482f-8afa-e9906334c85e/branches/master/badge)](https://appcenter.ms) |
-
-## Sample App
-Try out Xamarin.Essentials on your device!
-
-* [Android Sample App](https://install.appcenter.ms/orgs/microsoft-liveplayer/apps/essentials-android/distribution_groups/public%20testers) via App Center.
-
-## Installation
-
-Xamarin.Essentials is available via:
-
-* NuGet Official Releases: [![NuGet](https://img.shields.io/nuget/vpre/Xamarin.Essentials.svg?label=NuGet)](https://www.nuget.org/packages/Xamarin.Essentials)
-
-Please read our [Getting Started with Xamarin.Essentials guide](https://docs.microsoft.com/xamarin/essentials/get-started) for full setup instructions.
-
 ## Documentation
 
 Browse our [full documentation for Xamarin.Essentials](https://docs.microsoft.com/xamarin/essentials), including feature guides, on how to use each feature.
-
-## Supported Platforms
-
-Xamarin.Essentials is focused on the following platforms:
-
-* iOS (10+)
-* Android (4.4+)
-* UWP (Fall Creators Update+)
 
 ## API Documentation
 
@@ -77,37 +59,3 @@ The following cross-platform APIs are available in Xamarin.Essentials:
 ## Contributing
 
 Please read through our [Contribution Guide](CONTRIBUTING.md). We are not accepting new PRs for full features, however any [issue that is marked as `up for grabs`](https://github.com/xamarin/Essentials/issues?q=is%3Aissue+is%3Aopen+label%3A%22up+for+grabs%22) are open for community contributions. We encourage creating new issues for bugs found during usage that the team will triage. Additionally, we are open for code refactoring suggestions in PRs.
-
-## Building Xamarin.Essentials
-
-Xamarin.Essentials is built with the new SDK-style projects with multi-targeting enabled. This means that all code for iOS, Android, and UWP exist inside of the Xamarin.Essentials project.
-
-If building on Visual Studio 2017, you will need the following SDKs and workloads installed:
-
-### Workloads need:
-
-* Xamarin
-* .NET Core
-* UWP
-
-### You will need the following SDKs
-
-* Android 9.0, 8.1, 8.0, 7.1, 7.0, & 6.0 SDK Installed
-* UWP 10.0.16299 SDK Installed
-
-If using Visual Studio for Mac the project can be built at the command line with MSBuild. To change the project type that you are working with, simply edit Xamarin.Essentials.csproj and modify the TargetFrameworks for only the project type you want to use.
-
-To build through the command line, navigate to where Xamarin.Essentials.csproj exists then run:
-
-```csharp
-msbuild /restore Xamarin.Essentials.csproj
-```
-
-## FAQ
-
-Here are some frequently asked questions about Xamarin.Essentials, but be sure to read our full [FAQ on our Wiki](https://github.com/xamarin/Essentials/wiki#feature-faq).
-
-## License
-
-Please see the [License](LICENSE).
-
