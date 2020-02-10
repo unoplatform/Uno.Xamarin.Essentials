@@ -39,8 +39,7 @@ jobs:
         inputs:
           solution: Xamarin.Essentials/Xamarin.Essentials.csproj
           configuration: Release
-          msbuildArguments: '/t:Pack /p:PackageVersion=$(GITVERSION_FullSemVer) /p:PackageOutputPath="$(Build.ArtifactStagingDirectory)/nuget"'
-
+          msbuildArguments: '/t:Pack /p:PackageVersion=$(GITVERSION.FullSemVer) /p:InformationalVersion=$(GITVERSION.InformationalVersion) /p:PackageOutputPath="$(Build.ArtifactStagingDirectory)/nuget"'
 
       # publish the packages
       - task: PublishBuildArtifacts@1
